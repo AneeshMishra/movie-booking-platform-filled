@@ -1,0 +1,97 @@
+version: "3.9"
+
+networks:
+  ticketing-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
+services:
+  booking-service:
+    build: ./booking-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+    networks:
+      - ticketing-net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/ticketdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  partner-service:
+    build: ./partner-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db
+    networks:
+      - ticketing-net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/ticketdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  movie-service:
+    build: ./movie-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - db
+    networks:
+      - ticketing-net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/ticketdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  seat-service:
+    build: ./seat-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - db
+    networks:
+      - ticketing-net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/ticketdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  payment-service:
+    build: ./payment-service
+    ports:
+      - "8085:8085"
+    networks:
+      - ticketing-net
+    environment:
+      PAYMENT_GATEWAY_URL: https://sandbox.paymentgateway.com/api
+      PAYMENT_GATEWAY_KEY: test-key
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "8086:8086"
+    networks:
+      - ticketing-net
+    environment:
+      SMTP_SERVER: smtp.mailtrap.io
+      SMTP_PORT: 2525
+      SMTP_USER: test
+      SMTP_PASS: test
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ticketdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - ticketing-net

@@ -1,0 +1,16 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.xyz.ticketing</groupId>
+  <artifactId>movie-booking-platform</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>services/partner-service</module>
+    <module>services/movie-service</module>
+    <module>services/seat-service</module>
+    <module>services/booking-service</module>
+    <module>services/payment-service</module>
+    <module>services/notification-service</module>
+  </modules>
+</project>
